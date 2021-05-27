@@ -9,7 +9,7 @@
 #include <sys/resource.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <sys/types.h>
+// #include <sys/types.h>
 #include <unistd.h>
 
 #include <atomic>
@@ -665,8 +665,10 @@ class PosixEnv : public Env {
 
   void StartThread(void (*thread_main)(void* thread_main_arg),
                    void* thread_main_arg) override {
+#if 0
     std::thread new_thread(thread_main, thread_main_arg);
     new_thread.detach();
+#endif
   }
 
   Status GetTestDirectory(std::string* result) override {
@@ -713,7 +715,9 @@ class PosixEnv : public Env {
   }
 
   void SleepForMicroseconds(int micros) override {
+#if 0
     std::this_thread::sleep_for(std::chrono::microseconds(micros));
+#endif
   }
 
  private:
@@ -781,6 +785,7 @@ PosixEnv::PosixEnv()
 void PosixEnv::Schedule(
     void (*background_work_function)(void* background_work_arg),
     void* background_work_arg) {
+#if 0
   background_work_mutex_.Lock();
 
   // Start the background thread, if we haven't done so already.
@@ -797,9 +802,11 @@ void PosixEnv::Schedule(
 
   background_work_queue_.emplace(background_work_function, background_work_arg);
   background_work_mutex_.Unlock();
+#endif
 }
 
 void PosixEnv::BackgroundThreadMain() {
+#if 0
   while (true) {
     background_work_mutex_.Lock();
 
@@ -816,6 +823,7 @@ void PosixEnv::BackgroundThreadMain() {
     background_work_mutex_.Unlock();
     background_work_function(background_work_arg);
   }
+#endif
 }
 
 namespace {

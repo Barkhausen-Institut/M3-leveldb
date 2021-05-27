@@ -41,7 +41,7 @@ class PosixLogger final : public Logger {
     // Record the thread ID.
     constexpr const int kMaxThreadIdSize = 32;
     std::ostringstream thread_stream;
-    thread_stream << std::this_thread::get_id();
+    thread_stream << 0; // std::this_thread::get_id();
     std::string thread_id = thread_stream.str();
     if (thread_id.size() > kMaxThreadIdSize) {
       thread_id.resize(kMaxThreadIdSize);
