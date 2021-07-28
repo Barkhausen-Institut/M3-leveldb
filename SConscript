@@ -16,8 +16,6 @@ myenv['CXXFLAGS'] = [
     '-O2',
     '-DNDEBUG',
     '-flto',
-    '-march=rv64imafdc',
-    '-mabi=lp64',
     '-U_FORTIFY_SOURCE',
     '-D_GNU_SOURCE',
 
@@ -30,6 +28,11 @@ myenv['CXXFLAGS'] = [
     '-Wno-implicit-fallthrough',
     '-Wno-unused-function',
 ]
+if myenv['ARCH'] == 'riscv64':
+    myenv['CXXFLAGS'] += [
+       '-march=rv64imafdc',
+       '-mabi=lp64',
+    ]
 
 # build all files except tests and other envs
 files = myenv.Glob('table/*.cc') + myenv.Glob('db/*.cc') + myenv.Glob('util/*.cc')
