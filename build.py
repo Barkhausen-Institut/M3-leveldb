@@ -16,6 +16,7 @@ def build(gen, env):
         '-Wno-unused-parameter',
         '-Wno-implicit-fallthrough',
         '-Wno-unused-function',
+        '-Wno-psabi',
     ]
 
     # build all files except tests and other envs
