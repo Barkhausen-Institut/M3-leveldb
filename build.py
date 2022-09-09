@@ -1,9 +1,6 @@
 import os
 
 def build(gen, env):
-    if env['PLATF'] == 'host':
-        return
-
     env = env.clone()
 
     env['CPPPATH'] += ['src/libs/leveldb', 'src/libs/leveldb/include']
