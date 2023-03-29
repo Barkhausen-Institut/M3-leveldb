@@ -1,5 +1,6 @@
 import os
 
+
 def build(gen, env):
     env = env.clone()
 
@@ -20,8 +21,8 @@ def build(gen, env):
     files = env.glob(gen, 'table/*.cc') + env.glob(gen, 'db/*.cc') + env.glob(gen, 'util/*.cc')
     files = [f for f in files
              if not os.path.basename(f).endswith('_test.cc') and
-                os.path.basename(f) != 'env_windows.cc' and
-                os.path.basename(f) != 'testutil.cc']
+             os.path.basename(f) != 'env_windows.cc' and
+             os.path.basename(f) != 'testutil.cc']
 
-    lib = env.static_lib(gen, out = 'leveldb', ins = files)
+    lib = env.static_lib(gen, out='leveldb', ins=files)
     env.install(gen, env['LIBDIR'], lib)
