@@ -10,9 +10,10 @@
 #ifndef STORAGE_LEVELDB_PORT_PORT_M3_H_
 #define STORAGE_LEVELDB_PORT_PORT_M3_H_
 
-#include "port/thread_annotations.h"
-
+#include <cstdint>
 #include <string>
+
+#include "port/thread_annotations.h"
 
 namespace leveldb {
 namespace port {
@@ -27,16 +28,16 @@ class LOCKABLE Mutex {
 
   // Lock the mutex.  Waits until other lockers have exited.
   // Will deadlock if the mutex is already locked by this thread.
-  void Lock() EXCLUSIVE_LOCK_FUNCTION() {};
+  void Lock() EXCLUSIVE_LOCK_FUNCTION(){};
 
   // Unlock the mutex.
   // REQUIRES: This mutex was locked by this thread.
-  void Unlock() UNLOCK_FUNCTION() {};
+  void Unlock() UNLOCK_FUNCTION(){};
 
   // Optionally crash if this thread does not hold this mutex.
   // The implementation must be fast, especially if NDEBUG is
   // defined.  The implementation is allowed to skip all checks.
-  void AssertHeld() ASSERT_EXCLUSIVE_LOCK() {};
+  void AssertHeld() ASSERT_EXCLUSIVE_LOCK(){};
 };
 
 class CondVar {
@@ -48,19 +49,13 @@ class CondVar {
   // either a call to SignalAll(), or a call to Signal() that picks
   // this thread to wakeup.
   // REQUIRES: this thread holds *mu
-  void Wait() {
-    __builtin_unreachable();
-  }
+  void Wait() { __builtin_unreachable(); }
 
   // If there are some threads waiting, wake up at least one of them.
-  void Signal() {
-    __builtin_unreachable();
-  }
+  void Signal() { __builtin_unreachable(); }
 
   // Wake up all waiting threads.
-  void SignalAll() {
-    __builtin_unreachable();
-  }
+  void SignalAll() { __builtin_unreachable(); }
 };
 
 // ------------------ Compression -------------------
@@ -69,15 +64,15 @@ class CondVar {
 // Returns false if snappy is not supported by this port.
 static inline bool Snappy_Compress(const char* input, size_t input_length,
                                    std::string* output) {
-    return false;
+  return false;
 }
 
 // If input[0,input_length-1] looks like a valid snappy compressed
 // buffer, store the size of the uncompressed data in *result and
 // return true.  Else return false.
-static inline bool Snappy_GetUncompressedLength(const char* input, size_t length,
-                                                size_t* result) {
-    return false;
+static inline bool Snappy_GetUncompressedLength(const char* input,
+                                                size_t length, size_t* result) {
+  return false;
 }
 
 // Attempt to snappy uncompress input[0,input_length-1] into *output.
@@ -87,9 +82,9 @@ static inline bool Snappy_GetUncompressedLength(const char* input, size_t length
 // REQUIRES: at least the first "n" bytes of output[] must be writable
 // where "n" is the result of a successful call to
 // Snappy_GetUncompressedLength.
-static inline bool Snappy_Uncompress(const char* input_data, size_t input_length,
-                                     char* output) {
-    return false;
+static inline bool Snappy_Uncompress(const char* input_data,
+                                     size_t input_length, char* output) {
+  return false;
 }
 
 // ------------------ Miscellaneous -------------------
@@ -97,16 +92,18 @@ static inline bool Snappy_Uncompress(const char* input_data, size_t input_length
 // If heap profiling is not supported, returns false.
 // Else repeatedly calls (*func)(arg, data, n) and then returns true.
 // The concatenation of all "data[0,n-1]" fragments is the heap profile.
-static inline bool GetHeapProfile(void (*func)(void*, const char*, int), void* arg) {
-    return false;
+static inline bool GetHeapProfile(void (*func)(void*, const char*, int),
+                                  void* arg) {
+  return false;
 }
 
 // Extend the CRC to include the first n bytes of buf.
 //
 // Returns zero if the CRC cannot be extended using acceleration, else returns
 // the newly extended CRC value (which may also be zero).
-static inline uint32_t AcceleratedCRC32C(uint32_t crc, const char* buf, size_t size) {
-    return 0;
+static inline uint32_t AcceleratedCRC32C(uint32_t crc, const char* buf,
+                                         size_t size) {
+  return 0;
 }
 
 }  // namespace port
